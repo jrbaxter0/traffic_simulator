@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<title>PEO Traffic Demo</title>
+<meta name="description" content="Project to Introduce Computer Engineering to Students">
+<meta name="author" content="PEO">
+
+<!--<script src="Traffic.js" type="text/javascript"></script>-->
+<script src="Source Code/traffic_init.js" type="text/javascript"></script>	
+<script src="Source Code/traffic_map.js" type="text/javascript"></script>
+<script src="Source Code/misc_functions.js" type="text/javascript"></script>
+<script src="Source Code/simulation_functions.js" type="text/javascript"></script>
+<link rel=StyleSheet type="text/css" href="CSS/Traffic_css.css">
+
+</HEAD>
+
+<Body onload="initialize()">
+<div id="Scene">
+
+</div>
+
+<div id="OptionsPane">
+<button id="simulation_start" onclick="start_simulation()">Start Simulation</button>
+<button id="simulation_reset" onclick="reset_simulation()">Reset Simulation</button>
+<p id="LightState0">Light State: vertical</p>
+<p id="LightState1">Light State: vertical</p>
+<p id="LightState2">Light State: vertical</p>
+<p id="Score">Score: 0</p>
+<p id="Latency">Average Latency: 0</p>
+</div>
+
+</Body>
+</HTML>

@@ -1,0 +1,23 @@
+body {
+	background-color: #000000;
+}
+
+#header {
+	color: #ffffff;
+}
+
+#Scene {
+	background-color: black;
+	width: 75%; /*Need to edit constant in build_map function if this value changes*/
+	height: 100%;
+	display: inline-block;
+	float: left;
+}
+
+#OptionsPane {
+	background-color: white;
+	width: 20%;
+	height: 100%;
+	display: inline-block;
+	float: left;
+}

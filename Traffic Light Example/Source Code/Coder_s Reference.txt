@@ -1,0 +1,7 @@
+Hello! Thank you for opening this test document!
+
+Session Storage id_strings
+working_map: 2 dimensional array containing the map_grid objects
+active_cars: 1 dimentsional array of all cars on the map
+active_lights: 1 dimensional array which references the traffic lights (contents are subset of working_map)
+active_edges: 1 dimensional array of all map edges where cars can exit/enter
