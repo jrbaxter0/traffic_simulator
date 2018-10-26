@@ -57,11 +57,20 @@ function traffic_light(i, j, cycle_mode, max_cars_x, max_cars_y, max_time_x, max
 
 	}
 
-	light.get_green(index_i, index_j){
-		//Allows a card to determine if the light is green in their direction
-		//Returns a boolean true (green) or false (anything else)
-
-		/// TODO
+	light.get_green = fuction(direction){
+		// Allows a car to determine if the light is green in their direction
+		// Returns a boolean true (green) or false (anything else)
+		// Direction: 0: up; 1: right; 2: down; 3: left
+		if(light.green_state == "horizontal" && (direction == 1 || direction == 3))
+		{
+			//Good for horizontal travel
+			return true;
+		}
+		if(light.green_state == "vertical" && (direction == 0 || direction == 2))
+		{
+			//Good for vertical travel
+			return true;
+		}
 		return false;
 	}
 
