@@ -35,13 +35,38 @@ function traffic_light(i, j, cycle_mode, max_cars_x, max_cars_y, max_time_x, max
 	light.max_time_x = max_time_x;
 	light.max_time_y = max_time_y;
 
-	light.last_state = "changing"; //should this be set to something else?
+	light.last_state = "red"; //should this be set to something else?
+	light.state = "red"
+	light.state_time_ms = -1;
 	
 
 	light.update_light = fuction(car_grid){
 		if(this.cycle_mode == "timer"){
-			if(this.last_state != "waiting"){
+			if(this.last_state == "waiting"){
 				//Check if the time has been reached and change if yes, otherwise add 1 to state time
+				switch(this.state){
+					case "red": 
+						if(this.state_time_ms > light_red_time_ms){
+							if(this.last_state == "horizontal"){
+								this.state = "vertical_green";
+							}
+							else{
+								this.state = "horizontal_green";
+							}
+							this.state_time_ms = 0;
+						}
+						else{
+							this.state_time_ms += 1; // can we get real ms?
+						}
+					case "horizontal_green": 
+						//stuff
+					case "vertical_green": 
+						//stuff
+					case "horizontal_yellow": 
+						//stuff
+					case "vertical_yellow": 
+						//stuff
+				}
 			}
 		}
 		else if(this.cycle_mode == "car_count"){
@@ -61,12 +86,12 @@ function traffic_light(i, j, cycle_mode, max_cars_x, max_cars_y, max_time_x, max
 		// Allows a car to determine if the light is green in their direction
 		// Returns a boolean true (green) or false (anything else)
 		// Direction: 0: up; 1: right; 2: down; 3: left
-		if(light.green_state == "horizontal" && (direction == 1 || direction == 3))
+		if(light.state == "horizontal" && (direction == 1 || direction == 3))
 		{
 			//Good for horizontal travel
 			return true;
 		}
-		if(light.green_state == "vertical" && (direction == 0 || direction == 2))
+		if(light.state == "vertical" && (direction == 0 || direction == 2))
 		{
 			//Good for vertical travel
 			return true;
