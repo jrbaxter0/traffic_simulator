@@ -8,14 +8,14 @@
 
 //COMMENT
 
-function traffic_light(i, j, cycle_mode, max_cars_x, max_cars_y, max_time_x, max_time_y)
+function traffic_light(i, j, cycle_mode, max_cars_horizontal, max_cars_vertical, max_time_horizontal_ms, max_time_vertical_ms)
 {
 
 	/// @brief Time that the light is yellow before switching to double red
-	var light_yellow_time_ms = 1000;
+	var light_time_yellow_ms = 1000;
 
 	/// @brief Time that the light is a double red before switching to green in a single direction
-	var light_red_time_ms = 500;
+	var light_time_red_ms = 500;
 
 	/// @brief The light object being created / returned
 	var light = {};
@@ -29,107 +29,111 @@ function traffic_light(i, j, cycle_mode, max_cars_x, max_cars_y, max_time_x, max
 	/// @brief The mode that the intersection will use - can be "car_count" or "timer"
 	light.cycle_mode = cycle_mode;
 
-	light.max_cars_x = max_cars_x;
-	light.max_cars_y = max_cars_y;
+	light.max_cars_horizontal = max_cars_horizontal;
+	light.max_cars_vertical = max_cars_vertical;
 
-	light.max_time_x = max_time_x;
-	light.max_time_y = max_time_y;
+	light.max_time_horizontal_ms = max_time_horizontal_ms;
+	light.max_time_vertical_ms = max_time_vertical_ms;
 
-	light.last_state = "red"; //should this be set to something else?
-	light.state = "red"
-	light.state_time_ms = -1;
+	light.last_green = "vertical"; //should this be set to something else?
+	light.state = "red";
+	light.state_time_ms = -light_time_red_ms; // Will make it turn green on first cycle
 	
 
-	light.update_light = fuction(car_grid){
-		if(this.cycle_mode == "timer"){
-			if(this.last_state == "waiting"){
-				//Check if the time has been reached and change if yes, otherwise add 1 to state time
-				switch(this.state){
-					case "red": 
-						if(this.state_time_ms > light_red_time_ms){
-							if(this.last_state == "horizontal"){
-								this.state = "vertical_green";
-							}
-							else{
-								this.state = "horizontal_green";
-							}
+	light.update_light = function(car_grid){
+		switch(this.state){
+			case "red": 
+				if(this.state_time_ms > light_time_red_ms){
+					if(this.last_green == "horizontal"){
+						this.state = "vertical_green";
+					}
+					else{
+						this.state = "horizontal_green";
+					}
+					this.state_time_ms = 0;
+				}
+				else{
+					this.state_time_ms += 1; // can we get real ms?
+				}
+				break;
+			case "yellow": 
+				if(this.state_time_ms > light_time_yellow_ms)
+				{
+					this.state = "red";
+					this.state_time_ms = 0;
+				}
+				break;
+			case "vertical_green" // Intentional overflow
+			case "horizontal_green"
+				if(this.cycle_mode == "timer"){
+					if(this.state == "horizontal_green"){
+						if(this.state_time_ms > this.max_time_horizontal_ms){
+							this.state = "yellow";
 							this.state_time_ms = 0;
+							this.last_green = "horizontal";
 						}
 						else{
-							this.state_time_ms += 1; // can we get real ms?
+							this.state_time_ms += 1;
 						}
-					case "horizontal_green": 
-						//stuff
-					case "vertical_green": 
-						//stuff
-					case "horizontal_yellow": 
-						//stuff
-					case "vertical_yellow": 
-						//stuff
+					}
+					else //Vertical green
+					{
+						if(this.state_time_ms > this.max_time_vertical_ms){
+							this.state = "yellow";
+							this.state_time_ms = 0;
+							this.last_green = "vertical";
+						}
+						else{
+							this.state_time_ms += 1;
+						} 
+					}
 				}
-			}
+				else{ //Timer mode
+					if(this.state == "horizontal_green"){
+						if(this.get_cars(car_grid, "vertical") > this.max_cars_vertical){
+							this.state = "yellow";
+							this.state_time_ms = 0;
+							this.last_green = "horizontal";
+						}
+					}
+					else //Vertical green
+					{
+						if(this.get_cars(car_grid, "horizontal") > this.max_cars_horizontal){
+							this.state = "yellow";
+							this.state_time_ms = 0;
+							this.last_green = "vertical";
+						} 
+					}
+				}
+				break;
 		}
-		else if(this.cycle_mode == "car_count"){
+		// Update Image?
+	};
 
+	light.get_cars = function(car_grid, direction){
+		// Allows a light to determine how many cars are waiting for the light to change
+		// Returns an int being the sum of cars on both sides
+		// Direction: "horizontal" or "vertical"
+		return false;
+		//@TODO
+	};
 
-		}
-		else{
-			//I have no idea . . .
-		}
-
-
-
-
-	}
-
-	light.get_green = fuction(direction){
+	light.get_green = function(direction){
 		// Allows a car to determine if the light is green in their direction
 		// Returns a boolean true (green) or false (anything else)
-		// Direction: 0: up; 1: right; 2: down; 3: left
-		if(light.state == "horizontal" && (direction == 1 || direction == 3))
+		// Direction: "horizontal" or "vertical"
+		if(light.state == "horizontal_green" && direction == "horizontal")
 		{
 			//Good for horizontal travel
 			return true;
 		}
-		if(light.state == "vertical" && (direction == 0 || direction == 2))
+		if(light.state == "vertical_green" && direction == "vertical")
 		{
 			//Good for vertical travel
 			return true;
 		}
 		return false;
-	}
-
-
+	};
 
 	return light;
-}
-
-function ()
-{
-	//copy paste from simulation_functions.js
-	if(intersection_array[index].green_state != "changing") {
-			//Since this is only a time setup, check if the time as been reached and change if yes, otherwise add 1 to state time
-			if(intersection_array[index].state_time < intersection_array[index].max_time) {
-				intersection_array[index].state_time++;
-			} else {
-				intersection_array[index].state_time = 0;
-				if(intersection_array[index].green_state == "vertical") {
-					intersection_array[index].changing_to = "horizontal";
-				} else {
-					intersection_array[index].changing_to = "vertical";
-				}
-				intersection_array[index].green_state = "changing";
-			}
-		} else {
-			//If the light is changing, check to see if it should be done, if yes, change value, otherwise add 1 to state time
-			if(intersection_array[index].state_time < Number(sessionStorage.light_change_time)) {
-				intersection_array[index].state_time++;
-			} else {
-				intersection_array[index].state_time = 0;
-				intersection_array[index].green_state = intersection_array[index].changing_to;
-				intersection_array[index].changing_to = "changing";
-			}
-		}
-		//Update UI, temporary
-		document.getElementById("LightState" + i).innerHTML = "Light State: " + intersection_array[index].green_state;
 }
