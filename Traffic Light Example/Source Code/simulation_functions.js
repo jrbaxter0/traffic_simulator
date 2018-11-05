@@ -39,6 +39,7 @@ function reset_simulation() {
 	var car_grid = get_var("car_grid");
 	var car_array = get_var("car_array");
 	var intersection_array = get_var("intersection_array");
+	var spawn_array = get_var("spawn_array");
 	
 	//Destroy all cars
 	for(var i = car_array.length - 1; i >= 0 ; i--) {
@@ -57,10 +58,15 @@ function reset_simulation() {
 		intersection_array[i].changing_to = "changing";
 	}
 	
+	for(var i = 0; i < spawn_array.length; i++) {
+		reset_spawnpoints(spawn_array[i]);
+	}
+	
 	//Store the reset variables back into sessionStorage
 	store_var([], "car_array");
 	store_var(car_grid, "car_grid");
 	store_var(intersection_array, "intersection_array");
+	store_var(spawn_array, "spawn_array");
 	sessionStorage.cars_passed = "0";
 }
 
@@ -99,18 +105,6 @@ function manage_lights() {
 	
 	//Store new array of traffic lights
 	store_var(intersection_array, "intersection_array");
-}
-
-function manage_spawns() {
-	var spawn_array = get_var("spawn_array");
-	var car_grid = get_var("car_grid");
-	
-	//Iterate through spawns, call random value, if the value is lower than spawn_freq value and the spawn isn't on cooldown, then spawn car 
-	for(var i = 0; i < spawn_array.length; i++) {
-		update_spawn(spawn_array[i], Number(sessionStorage.spawn_cooldown), car_grid);
-	}
-	
-	store_var(spawn_array, "spawn_array");
 }
 
 function spawn_car(spawn_point) {

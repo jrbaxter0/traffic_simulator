@@ -32,24 +32,37 @@ function Spawnpoint(map_square, i, j) {
 	this.spawn_freq = map_square.frequency; //Copy over frequency, frequency is a number btween 0 and 255, 255 means it (almost) always spawns, 0 is never
 }
 
-function update_spawn(spawn_point, spawn_cooldown, car_grid) {
-		spawn_point.last_spawn = spawn_point.last_spawn + 1; //Increment time since last spawn
-		if((spawn_point.last_spawn > Number(spawn_cooldown)) && (car_grid[spawn_point.y_dim][spawn_point.x_dim].drivable == 1)) {
-			if(LFSR() < spawn_point.spawn_freq) {
-				spawn_point.last_spawn = 0; //Reset last spawn counter
-				spawn_car(spawn_point);
-				//This line should be replaced with a call to the car contructor, then return the result to be added to the car array
-			}
-		}
-		return; //We will return a new car here eventually
+function manage_spawns() {
+	var spawn_array = get_var("spawn_array");
+	var car_grid = get_var("car_grid");
+	
+	//Iterate through spawns, call random value, if the value is lower than spawn_freq value and the spawn isn't on cooldown, then spawn car 
+	for(var i = 0; i < spawn_array.length; i++) {
+		update_spawn(spawn_array[i], Number(sessionStorage.spawn_cooldown), car_grid);
 	}
 	
-function update_frequency(spawn_point, new_freq) {
-		spawn_point.spawn_freq = new_freq;
+	store_var(spawn_array, "spawn_array");
+}
+
+function update_spawn(spawn_point, spawn_cooldown, car_grid) {
+	spawn_point.last_spawn = spawn_point.last_spawn + 1; //Increment time since last spawn
+	if((spawn_point.last_spawn > Number(spawn_cooldown)) && (car_grid[spawn_point.y_dim][spawn_point.x_dim].drivable == 1)) {
+		if(LFSR() < spawn_point.spawn_freq) {
+			spawn_point.last_spawn = 0; //Reset last spawn counter
+			spawn_car(spawn_point);
+			//This line should be replaced with a call to the car contructor, then return the result to be added to the car array
+		}
 	}
+	return; //We will return a new car here eventually
+}
+	
 	
 function print_info(spawn_point) {
-		console.log("Spawnpoint Info: ");
-		console.log("X_Dim: " + spawn_point.x_dim);
-		console.log("Y_Dim: " + spawn_point.y_dim);
-	}
+	console.log("Spawnpoint Info: ");
+	console.log("X_Dim: " + spawn_point.x_dim);
+	console.log("Y_Dim: " + spawn_point.y_dim);
+}
+	
+function reset_spawnpoints(spawn_point) {
+	spawn_point.last_spawn = 10000;
+}
