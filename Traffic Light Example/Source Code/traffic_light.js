@@ -14,19 +14,19 @@
 // state_time_ms			the time that the light has spent in the state
 
 // Constructor for timer based light
-function traffic_light_timer(map_row, map_col, max_time_horizontal_ms, max_time_vertical_ms)
+function Traffic_light_timer(map_row, map_col, max_time_horizontal_ms, max_time_vertical_ms)
 {
 	return traffic_light(map_row, map_col, "timer", 0, 0, max_time_horizontal_ms, max_time_vertical_ms);
 }
 
 // Constructor for count based light
-function traffic_light_count(map_row, map_col, max_cars_horizontal, max_cars_vertical)
+function Traffic_light_count(map_row, map_col, max_cars_horizontal, max_cars_vertical)
 {
 	return traffic_light(map_row, map_col, "count", max_cars_horizontal, max_cars_vertical, 0, 0);
 }
 
 // General constructor
-function traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_cars_vertical, max_time_horizontal_ms, max_time_vertical_ms)
+function Traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_cars_vertical, max_time_horizontal_ms, max_time_vertical_ms)
 {
 
 	/// @brief Time that the light is yellow before switching to double red
@@ -35,33 +35,30 @@ function traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 	/// @brief Time that the light is a double red before switching to green in a single direction
 	var light_time_red_ms = 500;
 
-	/// @brief The light object being created / returned
-	var light = {};
+	/// @brief Position of the intersection in the map array
+	this.map_row = map_row;
 
 	/// @brief Position of the intersection in the map array
-	light.map_row = map_row;
-
-	/// @brief Position of the intersection in the map array
-	light.map_col = map_col;
+	this.map_col = map_col;
 
 	/// @brief The mode that the intersection will use - can be "car_count" or "timer"
-	light.cycle_mode = cycle_mode;
+	this.cycle_mode = cycle_mode;
 
 	/// @brief The max cars in horizontal and vertical directions
-	light.max_cars_horizontal = max_cars_horizontal;
-	light.max_cars_vertical = max_cars_vertical;
+	this.max_cars_horizontal = max_cars_horizontal;
+	this.max_cars_vertical = max_cars_vertical;
 
 	/// @brief The max time in horizontal and vertical modes
-	light.max_time_horizontal_ms = max_time_horizontal_ms;
-	light.max_time_vertical_ms = max_time_vertical_ms;
+	this.max_time_horizontal_ms = max_time_horizontal_ms;
+	this.max_time_vertical_ms = max_time_vertical_ms;
 
 	// Initial state setup
-	light.last_green = "vertical";
-	light.state = "red";
-	light.state_time_ms = -light_time_red_ms; // Will make it turn green on first cycle
+	this.last_green = "vertical";
+	this.state = "red";
+	this.state_time_ms = -light_time_red_ms; // Will make it turn green on first cycle
 	
 
-	light.update_light = function(car_grid)
+	this.update_light = function(car_grid)
 	{
 		switch(this.state)
 		{
@@ -149,7 +146,7 @@ function traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 		// Update Image?
 	};
 
-	light.get_cars = function(car_grid, direction){
+	this.get_cars = function(car_grid, direction){
 		// Allows a light to determine how many cars are waiting for the light to change
 		// Returns an int being the sum of cars on both sides
 		// Direction: "horizontal" or "vertical"
@@ -157,22 +154,20 @@ function traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 		//@TODO
 	};
 
-	light.get_green = function(direction){
+	this.get_green = function(direction){
 		// Allows a car to determine if the light is green in their direction
 		// Returns a boolean true (green) or false (anything else)
 		// Direction: "horizontal" or "vertical"
-		if(light.state == "horizontal_green" && direction == "horizontal")
+		if(this.state == "horizontal_green" && direction == "horizontal")
 		{
 			//Good for horizontal travel
 			return true;
 		}
-		if(light.state == "vertical_green" && direction == "vertical")
+		if(this.state == "vertical_green" && direction == "vertical")
 		{
 			//Good for vertical travel
 			return true;
 		}
 		return false;
 	};
-
-	return light;
 }
