@@ -71,31 +71,7 @@ function initialize() {
 		for(var j = 0; j < map[0].length; j++) {
 			if(map[i][j].type == "1") {
 				//define the values for each spawn point
-				var spawn_point = {};
-				var orient = Number(map[i][j].orientation);
-				
-				if(orient == 0) {
-					spawn_point.y_dim = 2 * i + 1;
-					spawn_point.x_dim = 2 * j + 1;
-					spawn_point.direction = "Up";
-				} else if (orient == 1) {
-					spawn_point.y_dim = 2 * i + 1;
-					spawn_point.x_dim = 2 * j;
-					spawn_point.direction = "Right";
-				} else if (orient == 2) {
-					spawn_point.y_dim = 2 * i;
-					spawn_point.x_dim = 2 * j;
-					spawn_point.direction = "Down";
-				} else {
-					spawn_point.y_dim = 2 * i;
-					spawn_point.x_dim = 2 * j + 1;
-					spawn_point.direction = "Left";
-				}
-				
-				spawn_point.last_spawn = 1000;
-				spawn_point.spawn_freq = map[i][j].frequency;
-				
-				spawn_array.push(spawn_point);
+				spawn_array.push(new Spawnpoint(map[i][j], i, j));
 			} else if (map[i][j].type == "4") {
 				//define values for lights
 				var intersection = {};

@@ -13,12 +13,15 @@ function simulate() {
 	//The main loop of the simulation
 	manage_lights();
 	move_cars();
+	
 	manage_spawns();
+
 	
 	//For Debugging purposes
 	console.log(get_var("car_grid"));
 	console.log(get_var("car_array"));
 	console.log(get_var("intersection_array"));
+	console.log(get_var("spawn_array"));
 }
 
 function reset_simulation() {
@@ -91,7 +94,7 @@ function manage_lights() {
 			}
 		}
 		//Update UI, temporary
-		document.getElementById("LightState" + i).innerHTML = "Light State: " + intersection_array[i].green_state;
+		//document.getElementById("LightState" + i).innerHTML = "Light State: " + intersection_array[i].green_state;
 	}
 	
 	//Store new array of traffic lights
@@ -104,12 +107,7 @@ function manage_spawns() {
 	
 	//Iterate through spawns, call random value, if the value is lower than spawn_freq value and the spawn isn't on cooldown, then spawn car 
 	for(var i = 0; i < spawn_array.length; i++) {
-		spawn_array[i].last_spawn = spawn_array[i].last_spawn;
-		if((spawn_array[i].last_spawn > Number(sessionStorage.spawn_cooldown)) && (car_grid[spawn_array[i].y_dim][spawn_array[i].x_dim].drivable == 1)) {
-			if(LFSR() < spawn_array[i].spawn_freq) {
-				spawn_car(spawn_array[i]);
-			}
-		}
+		update_spawn(spawn_array[i], Number(sessionStorage.spawn_cooldown), car_grid);
 	}
 	
 	store_var(spawn_array, "spawn_array");
@@ -211,8 +209,8 @@ function move_cars() {
 		car_array[cars_to_remove[i]] = car_array.pop();
 		sessionStorage.cars_passed = Number(sessionStorage.cars_passed) + 1;
 		sessionStorage.car_time = removed_car.time + Number(sessionStorage.car_time);
-		document.getElementById("Score").innerHTML = "Score: " + sessionStorage.cars_passed;
-		document.getElementById("Latency").innerHTML = "Average Latency: " + Math.round(10 * Number(sessionStorage.car_time) / Number(sessionStorage.cars_passed)) / 10; 
+		//document.getElementById("Score").innerHTML = "Score: " + sessionStorage.cars_passed;
+		//document.getElementById("Latency").innerHTML = "Average Latency: " + Math.round(10 * Number(sessionStorage.car_time) / Number(sessionStorage.cars_passed)) / 10; 
 		var element = document.getElementById(removed_car.carID);
 		if(element != null) {
 			element.parentNode.removeChild(element);

@@ -8,45 +8,48 @@
 //spawn_freq: the frequency that cars should spawn, 0-255, 0 means it will never spawn while 255 means always
 
 function Spawnpoint(map_square, i, j) {
-	var spawn_point = {};
 	var orient = Number(map_square.orientation); //Convert the map orientation into a int
 				
 	if(orient == 0) { //The spawnpoint on the tile is dependent on the orientation, it the direction is up, then the spawnpoint is in the bottom right, the grid is defined so 0,0 is in the top right
-		spawn_point.y_dim = 2 * i + 1;
-		spawn_point.x_dim = 2 * j + 1;
-		spawn_point.direction = "Up";
+		this.y_dim = 2 * i + 1;
+		this.x_dim = 2 * j + 1;
+		this.direction = "Up";
 	} else if (orient == 1) {
-		spawn_point.y_dim = 2 * i + 1;
-		spawn_point.x_dim = 2 * j;
-		spawn_point.direction = "Right";
+		this.y_dim = 2 * i + 1;
+		this.x_dim = 2 * j;
+		this.direction = "Right";
 	} else if (orient == 2) {
-		spawn_point.y_dim = 2 * i;
-		spawn_point.x_dim = 2 * j;
-		spawn_point.direction = "Down";
+		this.y_dim = 2 * i;
+		this.x_dim = 2 * j;
+		this.direction = "Down";
 	} else {
-		spawn_point.y_dim = 2 * i;
-		spawn_point.x_dim = 2 * j + 1;
-		spawn_point.direction = "Left";
+		this.y_dim = 2 * i;
+		this.x_dim = 2 * j + 1;
+		this.direction = "Left";
 	}
 	
-	spawn_point.last_spawn = 10000; //Set the last spawn rediculously high so that it doesn't get in the way
-	spawn_point.spawn_freq = map_square.frequency; //Copy over frequency, frequency is a number btween 0 and 255, 255 means it (almost) always spawns, 0 is never
-	
-	spawn_point.spawn_cars = function(spawn_cooldown, car_grid) {
-		this.last_spawn = this.last_spawn + 1; //Increment time since last spawn
-		if((this.last_spawn > Number(spawn_cooldown)) && (car_grid[this.y_dim][this.x_dim].drivable == 1)) {
-			if(LFSR() < this.spawn_freq) {
-				this.last_spawn = 0; //Reset last spawn counter
-				spawn_car(this);
+	this.last_spawn = 10000; //Set the last spawn rediculously high so that it doesn't get in the way
+	this.spawn_freq = map_square.frequency; //Copy over frequency, frequency is a number btween 0 and 255, 255 means it (almost) always spawns, 0 is never
+}
+
+function update_spawn(spawn_point, spawn_cooldown, car_grid) {
+		spawn_point.last_spawn = spawn_point.last_spawn + 1; //Increment time since last spawn
+		if((spawn_point.last_spawn > Number(spawn_cooldown)) && (car_grid[spawn_point.y_dim][spawn_point.x_dim].drivable == 1)) {
+			if(LFSR() < spawn_point.spawn_freq) {
+				spawn_point.last_spawn = 0; //Reset last spawn counter
+				spawn_car(spawn_point);
 				//This line should be replaced with a call to the car contructor, then return the result to be added to the car array
 			}
 		}
 		return; //We will return a new car here eventually
 	}
 	
-	spawn_point.update_frequency(new_freq) {
+function update_frequency(spawn_point, new_freq) {
 		spawn_point.spawn_freq = new_freq;
 	}
 	
-	return spawn_point;
-}
+function print_info(spawn_point) {
+		console.log("Spawnpoint Info: ");
+		console.log("X_Dim: " + spawn_point.x_dim);
+		console.log("Y_Dim: " + spawn_point.y_dim);
+	}
