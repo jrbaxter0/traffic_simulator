@@ -146,7 +146,8 @@ function Traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 		// Update Image?
 	};
 
-	this.get_cars = function(car_grid, direction){
+	this.get_cars = function(car_grid, direction)
+	{
 		// Allows a light to determine how many cars are waiting for the light to change
 		// Returns an int being the sum of cars on both sides
 		// Direction: "horizontal" or "vertical"
@@ -154,7 +155,8 @@ function Traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 		//@TODO
 	};
 
-	this.get_green = function(direction){
+	this.get_green = function(direction)
+	{
 		// Allows a car to determine if the light is green in their direction
 		// Returns a boolean true (green) or false (anything else)
 		// Direction: "horizontal" or "vertical"
@@ -170,4 +172,11 @@ function Traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 		}
 		return false;
 	};
+
+	this.reset = function()
+	{
+		this.last_green = "vertical";
+		this.state = "red";
+		this.state_time_ms = -light_time_red_ms; // Will make it turn green on first cycle
+	}
 }

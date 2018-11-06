@@ -53,9 +53,7 @@ function reset_simulation() {
 	
 	//Reset all traffic lights
 	for(var i = 0; i < intersection_array.length; i++) {
-		intersection_array[i].green_state = "vertical";
-		intersection_array[i].state_time = 0;
-		intersection_array[i].changing_to = "changing";
+		intersection_array[i].reset();
 	}
 	
 	for(var i = 0; i < spawn_array.length; i++) {
