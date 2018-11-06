@@ -76,29 +76,7 @@ function manage_lights() {
 
 	//iterate through all traffic lights (the contents of this loop should be an object method)
 	for(var i = 0; i < intersection_array.length; i++) {
-		if(intersection_array[i].green_state != "changing") {
-			//Since this is only a time setup, check if the time as been reached and change if yes, otherwise add 1 to state time
-			if(intersection_array[i].state_time < intersection_array[i].max_time) {
-				intersection_array[i].state_time++;
-			} else {
-				intersection_array[i].state_time = 0;
-				if(intersection_array[i].green_state == "vertical") {
-					intersection_array[i].changing_to = "horizontal";
-				} else {
-					intersection_array[i].changing_to = "vertical";
-				}
-				intersection_array[i].green_state = "changing";
-			}
-		} else {
-			//If the light is changing, check to see if it should be done, if yes, change value, otherwise add 1 to state time
-			if(intersection_array[i].state_time < Number(sessionStorage.light_change_time)) {
-				intersection_array[i].state_time++;
-			} else {
-				intersection_array[i].state_time = 0;
-				intersection_array[i].green_state = intersection_array[i].changing_to;
-				intersection_array[i].changing_to = "changing";
-			}
-		}
+		intersection_array[i].update_light();
 		//Update UI, temporary
 		//document.getElementById("LightState" + i).innerHTML = "Light State: " + intersection_array[i].green_state;
 	}

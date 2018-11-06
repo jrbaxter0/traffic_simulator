@@ -12,7 +12,6 @@ function initialize() {
 	sessionStorage.spawn_cooldown = "5"; //Number of cycles before spawn can occur
 	sessionStorage.car_move_cooldown = "2";
 	sessionStorage.short_wait = "2";
-	sessionStorage.light_change_time = "8";
 	sessionStorage.car_zindex = "5";
 	sessionStorage.current_car_id = "0";
 	store_var([], "car_array");
@@ -73,24 +72,15 @@ function initialize() {
 				//define the values for each spawn point
 				spawn_array.push(new Spawnpoint(map[i][j], i, j));
 			} else if (map[i][j].type == "4") {
-				//define values for lights
-				var intersection = {};
 				
-				intersection.x_coord = j;
-				intersection.y_coord = i;
-				intersection.green_state = "vertical";
-				intersection.logic_mode = "timer";
-				intersection.max_time = 20;
-				intersection.state_time = 0;
-				intersection.changing_to = "changing";
-				intersection.id = intersection_array.length;
+				var intersection = {};
 				
 				car_grid[2*i][2*j].id = intersection_array.length;
 				car_grid[2*i+1][2*j].id = intersection_array.length;
 				car_grid[2*i+1][2*j+1].id = intersection_array.length;
 				car_grid[2*i][2*j+1].id = intersection_array.length;
 			
-				intersection_array.push(intersection);
+				intersection_array.push(new Traffic_light(i, j, "timer", 10, 10, 20, 20));
 			}
 		}
 	}
