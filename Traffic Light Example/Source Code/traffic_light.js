@@ -93,7 +93,7 @@ function Traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 				}
 				break;
 
-			case "horizontal_green"
+			case "horizontal_green":
 				if(this.cycle_mode == "timer")
 				{
 					if(this.state_time_ms > this.max_time_horizontal_ms)
@@ -118,7 +118,7 @@ function Traffic_light(map_row, map_col, cycle_mode, max_cars_horizontal, max_ca
 				}
 				break;
 
-			case "vertical_green"
+			case "vertical_green":
 				if(this.cycle_mode == "timer")
 				{
 					if(this.state_time_ms > this.max_time_vertical_ms)
