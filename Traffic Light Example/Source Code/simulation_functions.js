@@ -136,8 +136,9 @@ function move_cars() {
 			} else {
 				if (car_grid[destination[1]][destination[0]].type == 4 && car_grid[car_array[i].y_coord][car_array[i].x_coord].type != 4) {
 					//if moving from a non-light to a light
-					var light_green_state = intersection_array[car_grid[destination[1]][destination[0]].id].green_state;
-					if(light_green_state == "vertical" && ((car_array[i].directions == "Up") || (car_array[i].directions == "Down"))) {
+					var light = intersection_array[car_grid[destination[1]][destination[0]].id];
+					if((car_array[i].directions == "Up" || car_array[i].directions == "Down") && light.get_green("vertical"))
+					{
 						car_grid[car_array[i].y_coord][car_array[i].x_coord].drivable = 1;
 						car_array[i].x_coord = destination[0];
 						car_array[i].y_coord = destination[1];
@@ -145,15 +146,19 @@ function move_cars() {
 						car_array[i].movement_cooldown = Number(sessionStorage.car_move_cooldown);
 						
 						update_car_position(car_array[i].x_coord, car_array[i].y_coord, car_array[i].carID);
-					} else if (light_green_state == "horizontal" && ((car_array[i].directions == "Left") || (car_array[i].directions == "Right"))) {
+					}
+					else if((car_array[i].directions == "Left" || car_array[i].directions == "Right") && light.get_green("horizontal"))
+					{
 						car_grid[car_array[i].y_coord][car_array[i].x_coord].drivable = 1;
 						car_array[i].x_coord = destination[0];
 						car_array[i].y_coord = destination[1];
 						car_grid[destination[1]][destination[0]].drivable = 0;
 						car_array[i].movement_cooldown = Number(sessionStorage.car_move_cooldown);
-						
+
 						update_car_position(car_array[i].x_coord, car_array[i].y_coord, car_array[i].carID);
-					} else {
+					}
+					else
+					{
 						//if the car can't move, apply a short delay to prevent overtaxing processor
 						car_array[i].movement_cooldown = Number(sessionStorage.short_wait);
 					}
