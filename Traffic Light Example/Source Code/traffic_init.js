@@ -84,6 +84,13 @@ function initialize() {
 			}
 		}
 	}
+
+	var light = new Traffic_light(0, 0, "timer", 10, 10, 20, 20);
+	var bar;
+	for (bar in light)
+	{
+		console.log("light has property " + bar + " of type " + typeof bar);
+	}
 	
 	store_var(spawn_array, "spawn_array");
 	store_var(intersection_array, "intersection_array");

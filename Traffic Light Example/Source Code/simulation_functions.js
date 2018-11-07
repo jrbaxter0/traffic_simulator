@@ -71,10 +71,11 @@ function reset_simulation() {
 function manage_lights() {
 	//Check all lights and change state if needed
 	var intersection_array = get_var("intersection_array");
+	var car_grid = get_var("car_grid");
 
 	//iterate through all traffic lights (the contents of this loop should be an object method)
 	for(var i = 0; i < intersection_array.length; i++) {
-		intersection_array[i].update_light();
+		intersection_array[i].update_light(car_grid);
 		//Update UI, temporary
 		//document.getElementById("LightState" + i).innerHTML = "Light State: " + intersection_array[i].green_state;
 	}
@@ -144,7 +145,7 @@ function move_cars() {
 						car_array[i].y_coord = destination[1];
 						car_grid[destination[1]][destination[0]].drivable = 0;
 						car_array[i].movement_cooldown = Number(sessionStorage.car_move_cooldown);
-						
+
 						update_car_position(car_array[i].x_coord, car_array[i].y_coord, car_array[i].carID);
 					}
 					else if((car_array[i].directions == "Left" || car_array[i].directions == "Right") && light.get_green("horizontal"))
