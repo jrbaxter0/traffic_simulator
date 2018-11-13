@@ -50,7 +50,7 @@ function update_spawn(spawn_point, spawn_cooldown, car_grid) {
 		if(LFSR() < spawn_point.spawn_freq) {
 			spawn_point.last_spawn = 0; //Reset last spawn counter
 			spawn_car(spawn_point);
-			//This line should be replaced with a call to the car contructor, then return the result to be added to the car array
+			//This line should be replaced with a call to the car constructor, then return the result to be added to the car array
 		}
 	}
 	return; //We will return a new car here eventually
