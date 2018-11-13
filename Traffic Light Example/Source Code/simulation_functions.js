@@ -53,9 +53,7 @@ function reset_simulation() {
 	
 	//Reset all traffic lights
 	for(var i = 0; i < intersection_array.length; i++) {
-		intersection_array[i].green_state = "vertical";
-		intersection_array[i].state_time = 0;
-		intersection_array[i].changing_to = "changing";
+		reset_light(intersection_array[i]);
 	}
 	
 	for(var i = 0; i < spawn_array.length; i++) {
@@ -73,34 +71,11 @@ function reset_simulation() {
 function manage_lights() {
 	//Check all lights and change state if needed
 	var intersection_array = get_var("intersection_array");
+	var car_grid = get_var("car_grid");
 
 	//iterate through all traffic lights (the contents of this loop should be an object method)
 	for(var i = 0; i < intersection_array.length; i++) {
-		if(intersection_array[i].green_state != "changing") {
-			//Since this is only a time setup, check if the time as been reached and change if yes, otherwise add 1 to state time
-			if(intersection_array[i].state_time < intersection_array[i].max_time) {
-				intersection_array[i].state_time++;
-			} else {
-				intersection_array[i].state_time = 0;
-				if(intersection_array[i].green_state == "vertical") {
-					intersection_array[i].changing_to = "horizontal";
-				} else {
-					intersection_array[i].changing_to = "vertical";
-				}
-				intersection_array[i].green_state = "changing";
-			}
-		} else {
-			//If the light is changing, check to see if it should be done, if yes, change value, otherwise add 1 to state time
-			if(intersection_array[i].state_time < Number(sessionStorage.light_change_time)) {
-				intersection_array[i].state_time++;
-			} else {
-				intersection_array[i].state_time = 0;
-				intersection_array[i].green_state = intersection_array[i].changing_to;
-				intersection_array[i].changing_to = "changing";
-			}
-		}
-		//Update UI, temporary
-		//document.getElementById("LightState" + i).innerHTML = "Light State: " + intersection_array[i].green_state;
+		update_light(intersection_array[i], car_grid);
 	}
 	
 	//Store new array of traffic lights
@@ -160,24 +135,29 @@ function move_cars() {
 			} else {
 				if (car_grid[destination[1]][destination[0]].type == 4 && car_grid[car_array[i].y_coord][car_array[i].x_coord].type != 4) {
 					//if moving from a non-light to a light
-					var light_green_state = intersection_array[car_grid[destination[1]][destination[0]].id].green_state;
-					if(light_green_state == "vertical" && ((car_array[i].directions == "Up") || (car_array[i].directions == "Down"))) {
+					var light = intersection_array[car_grid[destination[1]][destination[0]].id];
+					if((car_array[i].directions == "Up" || car_array[i].directions == "Down") && get_green(light, "vertical"))
+					{
 						car_grid[car_array[i].y_coord][car_array[i].x_coord].drivable = 1;
 						car_array[i].x_coord = destination[0];
 						car_array[i].y_coord = destination[1];
 						car_grid[destination[1]][destination[0]].drivable = 0;
 						car_array[i].movement_cooldown = Number(sessionStorage.car_move_cooldown);
-						
+
 						update_car_position(car_array[i].x_coord, car_array[i].y_coord, car_array[i].carID);
-					} else if (light_green_state == "horizontal" && ((car_array[i].directions == "Left") || (car_array[i].directions == "Right"))) {
+					}
+					else if((car_array[i].directions == "Left" || car_array[i].directions == "Right") && get_green(light, "horizontal"))
+					{
 						car_grid[car_array[i].y_coord][car_array[i].x_coord].drivable = 1;
 						car_array[i].x_coord = destination[0];
 						car_array[i].y_coord = destination[1];
 						car_grid[destination[1]][destination[0]].drivable = 0;
 						car_array[i].movement_cooldown = Number(sessionStorage.car_move_cooldown);
-						
+
 						update_car_position(car_array[i].x_coord, car_array[i].y_coord, car_array[i].carID);
-					} else {
+					}
+					else
+					{
 						//if the car can't move, apply a short delay to prevent overtaxing processor
 						car_array[i].movement_cooldown = Number(sessionStorage.short_wait);
 					}
