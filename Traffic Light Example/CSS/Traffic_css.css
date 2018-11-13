@@ -21,3 +21,42 @@ body {
 	display: inline-block;
 	float: left;
 }
+
+#TileNameDiv {
+	background-color: e8bb4d;
+	float:left; 
+	clear: left;
+	width: 100%;
+}
+
+#Stats_Section {
+	background-color: f1d592;	
+	float:left;
+	width: 100%;
+}
+
+#Phase1 {
+	background-color: e8bb4d;	
+	float:left; 
+	clear: left;
+	width: 100%;
+}
+
+#Phase2 {
+	background-color: f1d592;	
+	float:left; 
+	clear: left;
+	width: 100%;
+}
+
+#Phase3 {
+	background-color: e8bb4d;	
+	float:left; 
+	clear: left;
+	width: 100%;
+}
+
+textarea {
+	resize: none;
+}
+

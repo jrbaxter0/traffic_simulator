@@ -28,13 +28,35 @@
 		<H3>Tile Stats</H3>
 	</div>
 	<div id="Phase1"> 
-		<H3>Morning Rush Hour</H3>
+		
+		<H3 id="Phase1_Header"><button id="Phase1_CollapseButton" onclick="change_collaspe('Phase1_CollapseButton')">></button>Morning Rush Hour</H3>
 	</div>
 	<div id="Phase2"> 
 		<H3>Midday Traffic</H3>
 	</div>
 	<div id="Phase3"> 
-		<H3>Evening Rush Hour</H3>
+		<H3 id="Phase3_head">Evening Rush Hour - Light Number: 12</H3>
+		<p id="Phase3_indep_p">Directions programmed independently: <input type="checkbox" id="Phase3_indep_yes"> Yes <input type="checkbox" id="Phase3_indep_no"> No</p>
+		<div id="Phase3_both">
+			<H4 id="Phase3_both_head">Both directions</H4>
+			<p id="Phase3_both_type">Type: <input type="checkbox" id="Phase3_both_type_timer"> Timer <input type="checkbox" id="Phase3_both_type_count"> Car Count <input type="checkbox" id="Phase3_both_type_mimic"> Mimicry <input type="checkbox" id="Phase3_both_type_stop"> Stop Sign</p>
+			<div id="Phase3_both_timer">
+				<H5 id="Phase3_both_timer_head">Timer</H5>
+				<p id="Phase3_both_timer_p">Turn after <textarea id="Phase3_both_timer_p_time0" rows="1" cols="3" onchange=""></textarea> seconds.</p>
+			</div>
+			<div id="Phase3_both_count">
+				<H5 id="Phase3_both_count_head">Car Count</H5>
+				<p id="Phase3_both_count_p">Turn <textarea id="Phase3_both_count_p_time0" rows="1" cols="3"></textarea> seconds after <textarea id="Phase3_both_count_p_car0" rows="1" cols="3"></textarea> cars detected.</p>
+			</div>
+			<div id="Phase3_both_mimic">
+				<H5 id="Phase3_both_mimic_head">Mimicry</H5>
+				<p id="Phase3_both_mimic_p">Turn <textarea id="Phase3_both_mimic_p_time0" rows="1" cols="3"></textarea> seconds after light #<textarea id="Phase3_both_mimic_p_light0" rows="1" cols="3"></textarea> turns.</p>
+			</div>
+			<div id="Phase3_both_stop">
+				<H5 id="Phase3_both_stop_head">Stop Sign</H5>
+				<p id="Phase3_both_stop_p">Located: <input type="checkbox" id="Phase3_both_stop_p_vert">vertical<input type="checkbox" id="Phase3_both_stop_p_horz">horizontal</p>
+			</div>
+		</div> <!--Both-->
 	</div>
 </div>
 
