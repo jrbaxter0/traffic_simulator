@@ -19,7 +19,7 @@ function build_map(div, map, x_dim, y_dim) {
 				var image_object = get_single_level_source(map[block_location_y][block_location_x].type, map[block_location_y][block_location_x].orientation);
 		
 				//depending on the .instructions attribute, perform one of various functions to render the object		
-				render_full(grid_size_x, grid_size_y, block_location_x, block_location_y, x_buffer, y_buffer, image_object, div);
+				render_full(grid_size_x, grid_size_y, block_location_x, block_location_y, x_buffer, y_buffer, image_object, div, y_dim);
 			
 				//store the new element in the grid variable for later access
 			} else { //Run for multilevel objects
@@ -52,9 +52,12 @@ function get_single_level_source(type, orientation) {
 //interate through array to build all pieces
 //z levels: 0: base track, 5: highlighting, 10: cars on lower levels, 12: bridges, 15: cars on higher levels
 
-function render_full(grid_size_x, grid_size_y, block_location_x, block_location_y, x_buffer, y_buffer, image_object, div) {
+function render_full(grid_size_x, grid_size_y, block_location_x, block_location_y, x_buffer, y_buffer, image_object, div, y_dim) {
 	var elem = document.createElement("img");
 	elem.setAttribute("src", image_object.source);
+	elem.setAttribute("id", "MapSquare" + (block_location_x * y_dim + block_location_y));
+	elem.setAttribute("onclick", "update_data(" + (block_location_x * y_dim + block_location_y) + ")");
+	elem.setAttribute("onmouseenter", "update_hover_name(" + (block_location_x * y_dim + block_location_y) + ")");
 			
 	elem.setAttribute("width", grid_size_x + "%");
 	elem.setAttribute("height", grid_size_y + "%");
@@ -67,4 +70,42 @@ function render_full(grid_size_x, grid_size_y, block_location_x, block_location_
 	document.getElementById(div).appendChild(elem);
 	
 	return;
+}
+
+function update_data(square_id) {
+	console.log(square_id);
+}
+
+function update_hover_name(square_id) {
+	document.getElementById("TileHoverName").innerHTML = "Tile Name: " + square_id;
+}
+
+function change_collaspe(id) {
+	var str = document.getElementById(id).innerHTML;
+	if(str == "&gt;") {
+		str = "v";
+		document.getElementById(id).innerHTML = str;
+		//Uncollapse
+	} else if (str == "v") {
+		str = "&gt;";
+		document.getElementById(id).innerHTML = str;
+		//Collapse
+	}
+}
+
+function check_timer_valid(phase, dir, textarea_id, p_id) {
+	var intersection_array = get_var("intersection_array");
+	var value = document.getElementById(textarea_id).value;
+	console.log(value);
+	if(isNaN(value)) {
+		document.getElementById(p_id).style.color = "#ff0000";
+		console.log("Not a number");
+		//set_timer(intersection_array[id], dir, -1); 
+	} else {
+		document.getElementById(p_id).style.color = "#008000";
+		console.log("Number");
+		//set_timer(intersection_array[id], dir, Number(value)); 
+	}
+		
+	store_var(intersection_array, "intersection_array");
 }
