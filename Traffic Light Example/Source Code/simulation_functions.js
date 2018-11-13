@@ -53,7 +53,7 @@ function reset_simulation() {
 	
 	//Reset all traffic lights
 	for(var i = 0; i < intersection_array.length; i++) {
-		intersection_array[i].reset();
+		reset_light(intersection_array[i]);
 	}
 	
 	for(var i = 0; i < spawn_array.length; i++) {
@@ -75,9 +75,7 @@ function manage_lights() {
 
 	//iterate through all traffic lights (the contents of this loop should be an object method)
 	for(var i = 0; i < intersection_array.length; i++) {
-		intersection_array[i].update_light(car_grid);
-		//Update UI, temporary
-		//document.getElementById("LightState" + i).innerHTML = "Light State: " + intersection_array[i].green_state;
+		update_light(intersection_array[i], car_grid);
 	}
 	
 	//Store new array of traffic lights
@@ -138,7 +136,7 @@ function move_cars() {
 				if (car_grid[destination[1]][destination[0]].type == 4 && car_grid[car_array[i].y_coord][car_array[i].x_coord].type != 4) {
 					//if moving from a non-light to a light
 					var light = intersection_array[car_grid[destination[1]][destination[0]].id];
-					if((car_array[i].directions == "Up" || car_array[i].directions == "Down") && light.get_green("vertical"))
+					if((car_array[i].directions == "Up" || car_array[i].directions == "Down") && get_green(light, "vertical"))
 					{
 						car_grid[car_array[i].y_coord][car_array[i].x_coord].drivable = 1;
 						car_array[i].x_coord = destination[0];
@@ -148,7 +146,7 @@ function move_cars() {
 
 						update_car_position(car_array[i].x_coord, car_array[i].y_coord, car_array[i].carID);
 					}
-					else if((car_array[i].directions == "Left" || car_array[i].directions == "Right") && light.get_green("horizontal"))
+					else if((car_array[i].directions == "Left" || car_array[i].directions == "Right") && get_green(light, "horizontal"))
 					{
 						car_grid[car_array[i].y_coord][car_array[i].x_coord].drivable = 1;
 						car_array[i].x_coord = destination[0];

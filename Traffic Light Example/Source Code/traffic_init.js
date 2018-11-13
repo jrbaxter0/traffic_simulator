@@ -80,7 +80,7 @@ function initialize() {
 				car_grid[2*i+1][2*j+1].id = intersection_array.length;
 				car_grid[2*i][2*j+1].id = intersection_array.length;
 			
-				intersection_array.push(new Traffic_light(i, j, "timer", 10, 10, 20, 20));
+				intersection_array.push(new Traffic_light(intersection_array.length, i, j, "timer", 10, 10, 50, 30));
 			}
 		}
 	}
