@@ -35,21 +35,25 @@ function Spawnpoint(map_square, i, j) {
 function manage_spawns() {
 	var spawn_array = get_var("spawn_array");
 	var car_grid = get_var("car_grid");
+	var car_array = get_var("car_array");
 	
 	//Iterate through spawns, call random value, if the value is lower than spawn_freq value and the spawn isn't on cooldown, then spawn car 
 	for(var i = 0; i < spawn_array.length; i++) {
-		update_spawn(spawn_array[i], Number(sessionStorage.spawn_cooldown), car_grid);
+		update_spawn(spawn_array[i], Number(sessionStorage.spawn_cooldown), car_grid, car_array);
 	}
 	
 	store_var(spawn_array, "spawn_array");
+	store_var(car_grid, "car_grid");
+	store_var(car_array, "car_array");
 }
 
-function update_spawn(spawn_point, spawn_cooldown, car_grid) {
+function update_spawn(spawn_point, spawn_cooldown, car_grid, car_array) {
 	spawn_point.last_spawn = spawn_point.last_spawn + 1; //Increment time since last spawn
 	if((spawn_point.last_spawn > Number(spawn_cooldown)) && (car_grid[spawn_point.y_dim][spawn_point.x_dim].drivable == 1)) {
 		if(LFSR() < spawn_point.spawn_freq) {
 			spawn_point.last_spawn = 0; //Reset last spawn counter
-			spawn_car(spawn_point);
+			var new_car = new spawn_car(spawn_point, car_grid);
+			car_array.push(new_car);
 			//This line should be replaced with a call to the car constructor, then return the result to be added to the car array
 		}
 	}

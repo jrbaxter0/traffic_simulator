@@ -15,36 +15,52 @@ function build_map(div, map, x_dim, y_dim) {
 	for(var block_location_x = 0; block_location_x < x_dim; block_location_x++) {
 		for(var block_location_y = 0; block_location_y < y_dim; block_location_y++) {
 			//Using the type and orientation, return an array of all sources and other instructions
-			if(Number(map[block_location_y][block_location_x].type) < 100) { //True if piece takes 1 layer
-				var image_object = get_single_level_source(map[block_location_y][block_location_x].type, map[block_location_y][block_location_x].orientation);
-		
-				//depending on the .instructions attribute, perform one of various functions to render the object		
-				render_full(grid_size_x, grid_size_y, block_location_x, block_location_y, x_buffer, y_buffer, image_object, div, y_dim);
-			
-				//store the new element in the grid variable for later access
-			} else { //Run for multilevel objects
-				
-			}
+			var image_object = get_single_level_source(map[block_location_y][block_location_x].type, map[block_location_y][block_location_x].orientation);
+	
+			//depending on the .instructions attribute, perform one of various functions to render the object		
+			render_full(grid_size_x, grid_size_y, block_location_x, block_location_y, x_buffer, y_buffer, image_object, div, y_dim);
 		}
 	}
 }
 
-function get_single_level_source(type, orientation) {
-	//file basename lookup table
-	file_base_names = ["Border", "BorderTunnel", "Grass", "StraightRoadBlock", "IntersectionBase"];
-	
+function get_single_level_source(type, orientation) {	
 	//file rotation lookup table
 	file_rotations = ["_0", "_90", "_180", "_270", ""];
 	
 	var file_path = "Artwork/"
-	var file_base = file_base_names[Number(type)];
+	var file_base = "Border";
+	
+	if(type[0] == '0') {
+		if(type == "000") {
+			file_base = "Border";
+		} else if(type == "001") {
+			file_base = "Grass";
+		}
+	} else if(type[0] == '1') {
+		if(type == "100") {
+			file_base = "IntersectionBase";
+		}
+	} else if(type[0] == '2') {
+		if(type == "200") {
+			file_base = "StraightRoadBlock";
+		}
+	} else if(type[0] == '3') {
+		if(type == "300") {
+			file_base = "BorderTunnel";
+		}
+	} else if(type[0] == '4') {
+
+	} else if(type[0] == '5') {
+		
+	}
+	
 	var file_rot = "";
 	if (orientation != "-1") {
 		file_rot = file_rotations[Number(orientation)];
 	}
 	var file_ext = ".jpg";
 	
-	return {source:file_path + file_base + file_rot + file_ext, zindex:"0"};
+	return {source:file_path + file_base + file_rot + file_ext, zindex:"0", block_type:type};
 }
 
 //Accept # and orientation, first number (hundreds) indicates layers, next two are ids
@@ -76,21 +92,12 @@ function update_data(square_id) {
 	console.log(square_id);
 }
 
-function update_hover_name(square_id) {
+function update_hover_name(square_id, name) {
 	document.getElementById("TileHoverName").innerHTML = "Tile Name: " + square_id;
 }
 
-function change_collaspe(id) {
-	var str = document.getElementById(id).innerHTML;
-	if(str == "&gt;") {
-		str = "v";
-		document.getElementById(id).innerHTML = str;
-		//Uncollapse
-	} else if (str == "v") {
-		str = "&gt;";
-		document.getElementById(id).innerHTML = str;
-		//Collapse
-	}
+function build_programming_pane(id) {
+	
 }
 
 function check_timer_valid(phase, dir, textarea_id, p_id) {

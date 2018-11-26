@@ -23,24 +23,20 @@ function initialize() {
 	sessionStorage.random_seed_start = sessionStorage.random_seed;
 	
 	//Map
-	//Type 0 is a border
-	//Type 1 is a spawnpoint/tunnel
-	//type 2 is grass/background
-	//Type 3 is a straight road piece
-	//Type 4 is an intersection
-	var map = [ [{type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"1", orientation:"2", frequency:"50"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"1", orientation:"1", frequency:"20"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"4", orientation:"-1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"1", orientation:"3", frequency:"20"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"1", orientation:"1", frequency:"20"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"4", orientation:"-1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"1", orientation:"3", frequency:"20"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"1", orientation:"1", frequency:"20"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"4", orientation:"-1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"3", orientation:"1"}, {type:"1", orientation:"3", frequency:"20"}],
-			[{type:"0", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"3", orientation:"0"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"2", orientation:"-1"}, {type:"0", orientation:"-1"}],
-			[{type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"1", orientation:"0", frequency:"50"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}, {type:"0", orientation:"-1"}]];
+
+	var map = [ [{type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"300", orientation:"2", frequency:"50"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"300", orientation:"1", frequency:"20"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"100", orientation:"-1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"300", orientation:"3", frequency:"20"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"300", orientation:"1", frequency:"20"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"100", orientation:"-1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"300", orientation:"3", frequency:"20"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"300", orientation:"1", frequency:"20"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"100", orientation:"-1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"200", orientation:"1"}, {type:"300", orientation:"3", frequency:"20"}],
+			[{type:"000", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"200", orientation:"0"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"001", orientation:"-1"}, {type:"000", orientation:"-1"}],
+			[{type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"300", orientation:"0", frequency:"50"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}, {type:"000", orientation:"-1"}]];
 	
 	store_var(map, "working_map");
 	
@@ -68,10 +64,10 @@ function initialize() {
 	
 	for(var i = 0; i < map.length; i++) {
 		for(var j = 0; j < map[0].length; j++) {
-			if(map[i][j].type == "1") {
+			if(map[i][j].type[0] == "3" || map[i][j].type[0] == "5") {
 				//define the values for each spawn point
 				spawn_array.push(new Spawnpoint(map[i][j], i, j));
-			} else if (map[i][j].type == "4") {
+			} else if (map[i][j].type[0] == "1") {
 				
 				var intersection = {};
 				
@@ -85,12 +81,12 @@ function initialize() {
 		}
 	}
 
-	var light = new Traffic_light(0, 0, "timer", 10, 10, 20, 20);
+	/*var light = new Traffic_light(0, 0, "timer", 10, 10, 20, 20);
 	var bar;
 	for (bar in light)
 	{
 		console.log("light has property " + bar + " of type " + typeof bar);
-	}
+	}*/
 	
 	store_var(spawn_array, "spawn_array");
 	store_var(intersection_array, "intersection_array");
@@ -101,7 +97,7 @@ function initialize() {
 
 function check_drivable(map, i, j) {  //Returns 1 if the tile can be driven on
 	var type = map[i][j].type;
-	if((type == "1") || (type == "3") || (type == "4")) {
+	if(type[0] != "0") {
 		return 1;
 	}
 	return -1;
