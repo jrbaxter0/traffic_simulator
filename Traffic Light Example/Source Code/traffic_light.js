@@ -7,11 +7,11 @@
 // cycle_mode				Cycle mode "timer" or "count"
 // max_cars_horizontal		The maximum cars allowed to build up horizontally
 // max_cars_vertical		The maximum cars allowed to build up vertically
-// max_time_horizontal	The maximum time spent green horizontally before changing
+// max_time_horizontal		The maximum time spent green horizontally before changing
 // max_time_vertical		The maximum time spent green vertically before changing
 // last_green 				The last green state, "horizontal" or "vertical"
 // state 					the state of the light, "red", "yellow", "vertical_green", "horizontal_green"
-// state_time			the time that the light has spent in the state
+// state_time				the time that the light has spent in the state
 
 // General constructor
 
